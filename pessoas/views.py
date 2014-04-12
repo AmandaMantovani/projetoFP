@@ -5,7 +5,7 @@ def index(request):
 	return render(request,'index.html')
 	
 def pessoaListar(request):
-    pessoas = Pessoa.objects.all()[0:10]
+    pessoas = Pessoa.objects.all()[0:10] # isto e o select no banco
     # TESTE LOCAL PARA VERIFICAR SE A TABELA ESTA LISTANDO
     #pessoas = []
     #pessoas.append(Pessoa(nome='UNIFRAN', email='MAIL'))
@@ -18,6 +18,7 @@ def pessoaAdicionar(request):
 def pessoaSalvar(request):
     if request.method == 'POST':
         codigo = request.POST.get('codigo', '0')
+        # 'codigo' e o nome do text no formpessoas
 
         try:
             pessoa = Pessoa.objects.get(pk=codigo)
@@ -31,3 +32,4 @@ def pessoaSalvar(request):
 
         pessoa.save()
         return HttpResponseRedirect('/pessoas/')
+        # a primeira barra evita a mudanca do html pois caracteriza inicio
