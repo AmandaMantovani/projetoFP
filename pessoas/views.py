@@ -5,7 +5,7 @@ def index(request):
 	return render(request,'index.html')
 	
 def pessoaListar(request):
-    pessoas = Pessoa.objects.all()[0:10] # isto e o select no banco
+    pessoas = Pessoa.objects.all()[0:10] # isto e o select no banco lista os dez primeiros registros encontrados
     # TESTE LOCAL PARA VERIFICAR SE A TABELA ESTA LISTANDO
     #pessoas = []
     #pessoas.append(Pessoa(nome='UNIFRAN', email='MAIL'))
@@ -32,4 +32,14 @@ def pessoaSalvar(request):
 
         pessoa.save()
         return HttpResponseRedirect('/pessoas/')
-        # a primeira barra evita a mudanca do html pois caracteriza inicio
+        # a primeira barra evita a mudanca do html pois caracteriza iniciar
+
+def pessoaPesquisar(request):
+
+    texto = request.POST.get('textoBusca', '')
+
+    print '=====>'+texto
+
+    pessoas = Pessoa.objects.filter(nome__contains=texto)
+
+    return render(request, 'pessoas/listaPessoas.html', {'pessoas': pessoas})
