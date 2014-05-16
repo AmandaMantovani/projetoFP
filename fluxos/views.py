@@ -16,8 +16,8 @@ def pesquisarFluxos(request):
         nome = Pessoa.objects.filter(id=pessoaBusca)
         pessoas = Pessoa.objects.all().order_by('nome')
 
-        totalreceber = 0
-        totalpagar = 0
+        totreceber = 0
+        totpagar = 0
        
         try:
             sql = "select * from caixas_conta where pessoa_id like %s  and data >= '%s' and  data <= '%s'" % (pessoaBusca, dataBuscaInicio, dataBuscaFim)
@@ -25,12 +25,12 @@ def pesquisarFluxos(request):
 
             for item in contas:
                 if item.tipo == 'E':
-                    totalreceber = totalreceber + item.valor
+                    totreceber = totreceber + item.valor
                 else:
-                    totalpagar = totalpagar + item.valor
+                    totpagar = totpagar + item.valor
         except:
             contas = [Conta(descricao='erro')]
 
-        return render(request, 'fluxos/listarFluxos.html', {'contas': contas, 'nome':nome, 'pessoas': pessoas, 'totalreceber':totalreceber,'totalpagar':totalpagar})
+        return render(request, 'fluxos/listarFluxos.html', {'contas': contas, 'nome':nome, 'pessoas': pessoas, 'totalreceber':totreceber,'totalpagar':totpagar})
 
 
